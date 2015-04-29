@@ -5,9 +5,9 @@ module Faraday
   class RestrictIPAddresses < Faraday::Middleware
     class AddressNotAllowed < Faraday::Error::ClientError ; end
 
-    def initialize(app, verifier, options = {})
+    def initialize(app, options = {})
       super(app)
-      @verifier = verifier
+      @verifier = options[:allow_url]
     end
 
     def call(env)

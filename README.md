@@ -14,26 +14,9 @@ Usage
 ```ruby
 faraday = Faraday.new do |builder|
   builder.request :url_encoded
-  builder.request :restrict_ip_addresses, deny_rfc6890: true,
-                                          allow_localhost: true,
-                                          deny: ['8.0.0.0/8',
-                                                 '224.0.0.0/7'],
-                                          allow: ['192.168.0.0/24']
+  builder.request :restrict_ip_addresses, allow_url: lambda {|url| false }
   builder.adapter Faraday.default_adapter
 end
-
-faraday.get 'http://www.badgerbadgerbadger.com' # 150.0.0.150 or something
-# => cool
-
-faraday.get 'http://malicious-callback.com'      # 172.0.0.150, maybe a secret internal server? Maybe not?
-# => raises Faraday::RestrictIPAddresses::AddressNotAllowed
-```
-
-Permit/denied order is:
-
- * All addresses are allowed, except
- * Addresses that are denied, except
- * Addresses that are allowed.
 
 #### Author
 

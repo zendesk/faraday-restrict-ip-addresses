@@ -3,22 +3,18 @@ require 'spec_helper'
 
 describe Faraday::RestrictIPAddresses do
 
-  def middleware(verifier, opts = {})
-    @app = described_class.new(lambda{|env| env}, verifier, opts)
-  end
-
-  def denied(*addresses)
-    expect(-> { allowed(*addresses) }).to raise_error(Faraday::RestrictIPAddresses::AddressNotAllowed)
+  def middleware(opts = {})
+    @app = described_class.new(lambda{|env| env}, opts)
   end
 
   it "denies access when the verifier returns false" do
-    middleware(lambda { |env| false })
+    middleware(:allow_url => lambda { |env| false })
 
     expect { @app.call({url: 'http://example.com'}) }.to raise_error(Faraday::RestrictIPAddresses::AddressNotAllowed)
   end
 
   it "allows access when the verifier returns true" do
-    middleware(lambda { |env| true })
+    middleware(:allow_url => lambda { |env| true })
 
     @app.call({url: 'http://example.com'})
   end
@@ -30,7 +26,7 @@ describe Faraday::RestrictIPAddresses do
       u.should equal(url)
     end
 
-    middleware(verifier)
+    middleware(:allow_url => verifier)
 
     @app.call({url: url})
   end
