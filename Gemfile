@@ -4,6 +4,6 @@ gemspec
 
 group :development do
   gem 'rspec'
-  gem 'pry'
   gem 'mocha'
+  gem 'byebug'
 end
