@@ -1,0 +1,20 @@
+language: ruby
+
+rvm:
+  - 2.4.6
+  - 2.4
+  - 2.5
+  - 2.6
+  - ruby-head
+
+cache: bundler
+
+branches:
+  only: master
+
+bundler_args: "--without=deploy"
+script: bundle exec rspec
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
