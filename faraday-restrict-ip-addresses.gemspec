@@ -1,7 +1,6 @@
 Gem::Specification.new do |spec|
-  spec.version = '0.1.1'
-  spec.add_dependency 'faraday', '~>0.9.0'
-  spec.add_development_dependency 'bundler', '~> 1.0'
+  spec.version = '0.2.0'
+  spec.add_dependency 'faraday', '~>0.9', '< 1.0'
   spec.authors = ["Ben Lavender", "Christopher Kintner"]
   spec.description = %q{Restrict the IP addresses Faraday will connect to}
   spec.email = ['ckintner@github.com']
