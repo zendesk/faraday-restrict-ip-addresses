@@ -9,9 +9,9 @@ jobs:
   main:
     name: rvm-gemfile
     runs-on: zendesk-stable
+    continue-on-error: ${{ matrix.allow_failures }}
     strategy:
       fail-fast: true
-      continue-on-error: ${{ matrix.allow_failures }}
       matrix:
         allow_failures: [false]
         rvm:
