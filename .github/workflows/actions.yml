@@ -8,7 +8,7 @@ on:
 jobs:
   main:
     name: rvm-gemfile
-    runs-on: zendesk-stable
+    runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.allow_failures }}
     strategy:
       fail-fast: true
