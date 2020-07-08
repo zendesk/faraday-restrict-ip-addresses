@@ -1,3 +1,4 @@
+![repo-checks](https://github.com/zendesk/faraday-restrict-ip-addresses/workflows/repo-checks/badge.svg)
 Faraday::RestrictIPAddresses
 ============================
 

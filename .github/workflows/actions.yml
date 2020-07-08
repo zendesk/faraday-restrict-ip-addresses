@@ -1,0 +1,42 @@
+name: repo-checks
+
+on:
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  main:
+    name: rvm-matrix
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.allow_failures }}
+    strategy:
+      fail-fast: true
+      matrix:
+        allow_failures: [false]
+        rvm:
+          - 2.4.6
+          - 2.4
+          - 2.5
+          - 2.6
+        include:
+          - rvm: head
+            allow_failures: true
+    steps:
+    - uses: zendesk/checkout@v2
+    - uses: zendesk/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.rvm }}
+    - name: Vendor Cache
+      id: vendor-cache
+      uses: zendesk/cache@v2
+      with:
+        path: vendor/cache
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+    - name: before_install
+      run: |
+        bundle config path vendor/cache
+        bundle install --without=deploy --jobs=3 --retry=3
+    - name: test ${{ matrix.rvm }}
+      run: |
+        bundle exec rspec
